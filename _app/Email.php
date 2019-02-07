@@ -9,20 +9,20 @@ class Email {
 
     private $mail = \stdClass::class;
 
-    public function __construct() {
+    public function __construct($smtpDebug, $host, $username, $password, $smtpSecure, $port, $emailFrom, $nameFrom) {
         $this->mail = new PHPMailer(true);
-        $this->mail->SMTPDebug = 2;                                 // Enable verbose debug output
+        $this->mail->SMTPDebug = $smtpDebug;                                 // Enable verbose debug output
         $this->mail->isSMTP();                                      // Set mailer to use SMTP
-        $this->mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+        $this->mail->Host = $host;  // Specify main and backup SMTP servers
         $this->mail->SMTPAuth = true;                               // Enable SMTP authentication
-        $this->mail->Username = 'iau.copiadora@gmail.com';                 // SMTP username
-        $this->mail->Password = 'copiadora25';                           // SMTP password
-        $this->mail->SMTPSecure = 'tls';                         // Enable TLS encryption, `ssl` also accepted
-        $this->mail->Port = 587;                                    // TCP port to connect to
+        $this->mail->Username = $username;                 // SMTP username
+        $this->mail->Password = $password;                           // SMTP password
+        $this->mail->SMTPSecure = $smtpSecure;                         // Enable TLS encryption, `ssl` also accepted
+        $this->mail->Port = $port;                                    // TCP port to connect to
         $this->mail->CharSet = "utf-8";
         $this->mail->setLanguage('br');
         $this->mail->isHTML(true);
-        $this->mail->setFrom('iau.sti@sc.usp.br', 'Sistema de envio de e-mail');
+        $this->mail->setFrom($emailFrom, $nameFrom);
     }
 
     public function sendmail($subject, $body, $replayEmail, $replayName, $addressEmail, $addressName) {
